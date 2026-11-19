@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d18">
+<title>PAID CSTM | Free Fire Tournaments</title>
+<style>
+:root{--bg:#080d18;--panel:#111d31;--panel2:#0c1729;--blue:#16baff;--cyan:#63ddff;--muted:#a9bad1;--line:#263c59}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:#f4f8ff;font-family:Arial,sans-serif}
+header{padding:16px 5%;display:flex;align-items:center;justify-content:space-between;background:#0e192b;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.logo{font-size:23px;font-weight:900;letter-spacing:1px;color:var(--cyan)}
+button{border:0;border-radius:9px;padding:11px 15px;background:var(--blue);color:#03111d;font-weight:800;cursor:pointer}
+button.secondary{background:#233750;color:#eef7ff}
+button:disabled{opacity:.5;cursor:not-allowed}
+nav{display:flex;gap:8px;overflow-x:auto;padding:10px 5%;background:#101c30;position:sticky;top:62px;z-index:4}
+nav button{white-space:nowrap;background:#20334d;color:#eaf6ff;padding:9px 13px}
+nav button.selected{background:var(--blue);color:#06121e}
+main{max-width:900px;margin:auto;padding:18px}
+section{display:none}section.active{display:block}
+.hero{padding:28px 22px;border-radius:18px;background:linear-gradient(130deg,#063b60,#173b78 55%,#25206b);border:1px solid #24618e;margin:10px 0 18px}
+.hero h1{font-size:30px;margin-bottom:9px}.hero p,.muted{color:var(--muted);line-height:1.6}
+.card{background:var(--panel);border:1px solid var(--line);padding:18px;border-radius:15px;margin:14px 0}
+h2{color:var(--cyan);margin:8px 0 14px}h3{margin-bottom:8px}
+input,select,textarea{width:100%;padding:12px;margin:7px 0;background:#091426;color:white;border:1px solid #344d6e;border-radius:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.match{background:var(--panel2);border:1px solid #29415f;border-radius:12px;padding:15px}
+.pill{display:inline-block;font-size:12px;padding:5px 9px;border-radius:20px;background:#123c5a;color:#8ee3ff;margin-bottom:9px}
+.pill.paid{background:#463715;color:#ffe18a}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+.small{font-size:12px;color:#8fa5c2;line-height:1.5}
+.notice{border-left:3px solid var(--blue);padding:10px 12px;background:#0b2135;color:#c7eaff;border-radius:6px;line-height:1.5;margin:12px 0}
+.hidden{display:none!important}
+footer{text-align:center;color:#8297b5;padding:25px}
+a{color:var(--cyan)}
+@media(max-width:520px){header{padding:13px 4%}.logo{font-size:19px}nav{top:56px;padding:8px 4%}main{padding:13px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" id="siteLogo">PAID CSTM</div>
+  <button onclick="show('login')">Login / Register</button>
+</header>
+<nav>
+  <button class="selected" data-page="home" onclick="show('home')">Home</button>
+  <button data-page="matches" onclick="show('matches')">Matches</button>
+  <button data-page="register" onclick="show('register')">Join Match</button>
+  <button data-page="profile" onclick="show('profile')">Profile</button>
+  <button data-page="admin" onclick="show('admin')">Admin</button>
+</nav>
+<main>
+<section id="home" class="active">
+  <div class="hero">
+    <span class="pill">FREE FIRE COMMUNITY</span>
+    <h1 id="welcome">Welcome to PAID CSTM</h1>
+    <p>Solo • Duo • Squad | Custom Rooms | Tournament Updates</p><br>
+    <button onclick="show('matches')">Explore Matches</button>
+  </div>
+  <div class="card"><h2>About Us</h2><p class="muted" id="description">Free Fire custom match community. Check match details and register with your in-game UID.</p></div>
+  <div class="grid">
+    <div class="card"><h3>🎮 Match Types</h3><p class="muted">Solo, Duo aur Squad matches.</p></div>
+    <div class="card"><h3>🔐 Room Details</h3><p class="muted">Room ID/password admin ke dwara participants ko share honge.</p></div>
+    <div class="card"><h3>📋 Easy Registration</h3><p class="muted">Apna player name aur Free Fire UID submit karein.</p></div>
+  </div>
+</section>
+
+<section id="login">
+  <div class="card"><h2>Login / Register</h2>
+    <input id="username" placeholder="Your name">
+    <input id="email" type="email" placeholder="Email (optional)">
+    <button onclick="login()">Continue</button>
+    <p id="loginMsg" class="small"></p>
+    <p class="small">Demo login: is single-file version mein account sirf isi browser/device par save hota hai.</p>
+  </div>
+</section>
+
+<section id="matches">
+  <h2>Available Matches</h2>
+  <p class="muted">Entry type aur match mode dekhkar match choose karein.</p>
+  <div id="matchList" class="grid"></div>
+</section>
+
+<section id="register">
+  <div class="card"><h2>Join a Match</h2>
+    <p class="muted">Registration request demo mein isi device par save hogi.</p>
+    <input id="playerName" placeholder="Player name">
+    <input id="playerUid" inputmode="numeric" placeholder="Free Fire UID">
+    <select id="joinMatch"><option value="">Select match</option></select>
+    <button onclick="joinMatch()">Submit Registration</button>
+    <p id="joinMsg" class="small"></p>
+    <div class="notice">Safety: Password, OTP ya account login details kabhi share na karein. Room details sirf verified admin se lein.</div>
+  </div>
+</section>
+
+<section id="profile">
+  <div class="card"><h2>My Profile</h2>
+    <p id="profileName" class="muted">Guest User</p><p id="profileEmail" class="muted">Not logged in</p>
+    <button class="secondary" onclick="logout()">Logout</button>
+  </div>
+  <div class="card"><h2>My Registrations</h2><div id="myJoins" class="muted">No registrations yet.</div></div>
+</section>
+
+<section id="admin">
+  <div class="card"><h2>Admin Demo Panel</h2>
+    <p class="muted">Local preview only. Real website ke liye secure server-side admin login zaroori hai.</p>
+    <input id="adminPass" type="password" placeholder="Demo admin password">
+    <button onclick="adminLogin()">Open Admin</button><p id="adminMsg" class="small"></p>
+  </div>
+  <div class="card hidden" id="adminTools">
+    <h2>Website Settings</h2>
+    <input id="newTitle" placeholder="Website name">
+    <textarea id="newDescription" placeholder="Website description"></textarea>
+    <button onclick="saveSettings()">Save Settings</button>
+    <h2 style="margin-top:22px">Add Tournament</h2>
+    <input id="matchName" placeholder="Match name">
+    <div class="row">
+      <select id="matchMode"><option>Solo</option><option>Duo</option><option>Squad</option></select>
+      <select id="entryType"><option>Free</option><option>Paid (display only)</option></select>
+    </div>
+    <input id="matchPrize" placeholder="Prize details (informational)">
+    <input id="matchTime" placeholder="Date / time">
+    <button onclick="addMatch()">Add Match</button>
+    <h2 style="margin-top:22px">Manage Matches</h2><div id="adminMatchList"></div>
+    <h2 style="margin-top:22px">Registration Requests</h2><div id="adminJoinList"></div>
+  </div>
+</section>
+</main>
+<footer>© 2026 PAID CSTM • Community tournament demo</footer>
+<script>
+const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+let user=read("cstmUser",null),matches=read("cstmMatches",[]),joins=read("cstmJoins",[]);
+let settings=read("cstmSettings",{title:"PAID CSTM",description:"Free Fire custom match community. Check match details and register with your in-game UID."});
+function save(key,value){localStorage.setItem(key,JSON.stringify(value))}
+function show(id){
+ document.querySelectorAll("main section").forEach(s=>s.classList.toggle("active",s.id===id));
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("selected",b.dataset.page===id));
+ if(id==="profile")renderProfile();
+}
+function login(){
+ const name=document.getElementById("username").value.trim(),email=document.getElementById("email").value.trim();
+ if(!name){document.getElementById("loginMsg").textContent="Please enter your name.";return}
+ user={name,email};save("cstmUser",user);updateProfile();
+ document.getElementById("loginMsg").textContent="Demo login successful!";show("profile");
+}
+function logout(){user=null;localStorage.removeItem("cstmUser");updateProfile();show("home")}
+function updateProfile(){
+ document.getElementById("profileName").textContent=user?user.name:"Guest User";
+ document.getElementById("profileEmail").textContent=user?(user.email||"Email not added"):"Not logged in";
+}
+function renderMatches(){
+ const list=document.getElementById("matchList"),select=document.getElementById("joinMatch");
+ list.innerHTML=matches.length?matches.map((m,i)=>`<article class="match">
+ <span class="pill ${m.entry==="Paid (display only)"?"paid":""}">${escapeHTML(m.entry)} ENTRY</span>
+ <h3>${escapeHTML(m.name)}</h3><p class="muted">${escapeHTML(m.mode)} • ${escapeHTML(m.time||"Time to be announced")}</p>
+ <p class="muted">Prize: ${escapeHTML(m.prize)}</p>
+ <button onclick="chooseMatch(${i})">Register</button></article>`).join(""):'<p class="muted">Abhi koi match available nahi hai.</p>';
+ select.innerHTML='<option value="">Select match</option>'+matches.map((m,i)=>`<option value="${i}">${escapeHTML(m.name)} — ${escapeHTML(m.mode)}</option>`).join("");
+ document.getElementById("adminMatchList").innerHTML=matches.map((m,i)=>`<div class="match"><b>${escapeHTML(m.name)}</b><p class="small">${escapeHTML(m.mode)} | ${escapeHTML(m.entry)}</p><button class="secondary" onclick="deleteMatch(${i})">Delete</button></div>`).join("")||'<p class="muted">No matches.</p>';
+}
+function chooseMatch(i){document.getElementById("joinMatch").value=String(i);show("register")}
+function joinMatch(){
+ const name=document.getElementById("playerName").value.trim(),uid=document.getElementById("playerUid").value.trim(),idx=document.getElementById("joinMatch").value;
+ const msg=document.getElementById("joinMsg");
+ if(!name||!uid||idx===""){msg.textContent="Name, UID aur match select karna zaroori hai.";return}
+ joins.push({name,uid,match:matches[Number(idx)]?.name||"Unknown",owner:user?.name||"Guest"});
+ save("cstmJoins",joins);msg.textContent="Demo registration saved on this device.";document.getElementById("playerName").value="";document.getElementById("playerUid").value="";renderProfile();renderAdminJoins();
+}
+function renderProfile(){
+ updateProfile();const mine=joins.filter(j=>!user||j.owner===user.name);
+ document.getElementById("myJoins").innerHTML=mine.length?mine.map(j=>`<p>${escapeHTML(j.match)} — ${escapeHTML(j.name)} <span class="small">UID: ${escapeHTML(j.uid)}</span></p>`).join(""):"No registrations yet.";
+}
+function adminLogin(){
+ // Demo gate only; never use a client-side password for a public production admin panel.
+ if(document.getElementById("adminPass").value==="CSTM-DEMO"){
+ document.getElementById("adminTools").classList.remove("hidden");document.getElementById("adminMsg").textContent="Demo admin opened.";
+ }else document.getElementById("adminMsg").textContent="Incorrect demo password.";
+}
+function saveSettings(){
+ settings.title=document.getElementById("newTitle").value.trim()||settings.title;
+ settings.description=document.getElementById("newDescription").value.trim()||settings.description;
+ save("cstmSettings",settings);applySettings();alert("Demo settings saved.");
+}
+function applySettings(){
+ document.getElementById("siteLogo").textContent=settings.title;
+ document.getElementById("welcome").textContent="Welcome to "+settings.title;
+ document.getElementById("description").textContent=settings.description;
+}
+function addMatch(){
+ const name=document.getElementById("matchName").value.trim(),prize=document.getElementById("matchPrize").value.trim();
+ if(!name||!prize){alert("Match name aur prize details bharein.");return}
+ matches.push({name,prize,mode:document.getElementById("matchMode").value,entry:document.getElementById("entryType").value,time:document.getElementById("matchTime").value.trim()});
+ save("cstmMatches",matches);document.getElementById("matchName").value="";document.getElementById("matchPrize").value="";document.getElementById("matchTime").value="";renderMatches();
+}
+function deleteMatch(i){matches.splice(i,1);save("cstmMatches",matches);renderMatches()}
+function renderAdminJoins(){
+ document.getElementById("adminJoinList").innerHTML=joins.map(j=>`<div class="match"><b>${escapeHTML(j.match)}</b><p class="small">${escapeHTML(j.name)} • UID: ${escapeHTML(j.uid)}</p></div>`).join("")||'<p class="muted">No registration requests.</p>';
+}
+function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+applySettings();updateProfile();renderMatches();renderProfile();renderAdminJoins();
+</script>
+</body>
+</html>
